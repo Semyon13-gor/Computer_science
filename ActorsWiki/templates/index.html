@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ActorsWiki</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>ActorsWiki</h1>
+
+        <form method="GET" action="{{ url_for('index') }}" class="search-form">
+            <input type="text" name="search" placeholder="Поиск актера..." value="{{ search_query }}">
+            <button type="submit">Найти</button>
+        </form>
+
+
+        <a href="{{ url_for('add_actor') }}" class="add-button">Добавить актера</a>
+
+
+        <ul>
+            {% for actor in actors %}
+                <li>
+                    <a href="{{ url_for('actor_detail', actor_id=actor.Id) }}">{{ actor.Name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

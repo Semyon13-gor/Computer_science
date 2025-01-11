@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование {{ actor.Name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Редактирование {{ actor.Name }}</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" value="{{ actor.Name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="biography">Биография:</label>
+                <textarea id="biography" name="biography" rows="5">{{ actor.Biography }}</textarea>
+            </div>
+
+            <!-- Поиск фильмов -->
+            <div class="form-group">
+                <label for="movie_search">Поиск фильмов:</label>
+                <input type="text" id="movie_search" name="movie_search" placeholder="Введите название фильма...">
+                <button type="button" id="search_movie_button">Найти</button>
+            </div>
+
+            <!-- Список найденных фильмов -->
+            <div id="movie_results">
+                {% for movie in all_movies %}
+                    <div>
+                        <input type="checkbox" name="movies" value="{{ movie.id }}"
+                               {% if movie in actor.movie %}checked{% endif %}>
+                        {{ movie.title }} ({{ movie.release_date }})
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="save-button">Сохранить</button>
+            <a href="{{ url_for('actor_detail', actor_id=actor.Id) }}" class="cancel-link">Отмена</a>
+        </form>
+    </div>
+
+
+    <script>
+        document.getElementById('search_movie_button').addEventListener('click', function() {
+            const searchQuery = document.getElementById('movie_search').value;
+            const actorId = {{ actor.Id }};
+            const url = `/actor/${actorId}/edit?search=${encodeURIComponent(searchQuery)}`;
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>

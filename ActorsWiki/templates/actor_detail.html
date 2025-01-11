@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ actor.Name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ actor.Name }}</h1>
+        <div class="actor-detail">
+            <p><strong>Биография:</strong> {{ actor.Biography }}</p>
+
+            <h2>Фильмы:</h2>
+            <ul>
+                {% for movie in movies %}
+                    <li>{{ movie.title }} ({{ movie.release_date }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="{{ url_for('edit_actor', actor_id=actor.Id) }}" class="edit-link">Редактировать</a>
+        <a href="{{ url_for('index') }}" class="back-link">Назад к списку актеров</a>
+    </div>
+</body>
+</html>
